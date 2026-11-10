@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f2326">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Rota Lucrativa</title>
+<style>
+:root{--bg:#ecebe6;--card:#fff;--tx:#1c2023;--mut:#62676b;--line:#d5d2c8;--pri:#f5b800;--ok:#15803d;--mid:#a16207;--bad:#b91c1c;--okb:#dcf5e5;--midb:#fbefcf;--badb:#fbe0e0;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121517;--card:#1b1f22;--tx:#eef0f1;--mut:#9ba3a8;--line:#2d3438;--pri:#f5b800;--ok:#4ade80;--mid:#fbbf24;--bad:#f87171;--okb:#123221;--midb:#38290c;--badb:#3a1818;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121517;--card:#1b1f22;--tx:#eef0f1;--mut:#9ba3a8;--line:#2d3438;--pri:#f5b800;--ok:#4ade80;--mid:#fbbf24;--bad:#f87171;--okb:#123221;--midb:#38290c;--badb:#3a1818;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:600px;margin:0 auto;padding:10px 12px 100px}
+h1{font-size:21px;margin:6px 0}h2{font-size:17px;margin:14px 0 4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;margin:10px 0}
+label{display:block;font-weight:600;font-size:14px;margin:9px 0 3px}
+input,select{width:100%;padding:12px;font-size:17px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--tx)}
+small,.m{color:var(--mut);font-size:13px}
+.row{display:flex;gap:8px}.row>*{flex:1;min-width:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.k{background:var(--bg);border-radius:10px;padding:10px}.k b{display:block;font-size:19px}.k span{font-size:12px;color:var(--mut)}
+.btn{display:block;width:100%;padding:15px;border:0;border-radius:12px;background:var(--pri);color:#1a1400;font-size:17px;font-weight:700;margin-top:12px}
+.btn.s{background:var(--card);color:var(--tx);border:1px solid var(--line)}
+.btn.r{background:var(--bad);color:#fff}
+.sm{border:1px solid var(--line);background:var(--card);color:var(--tx);border-radius:8px;padding:8px 12px;font-size:14px;margin-left:6px}
+.res{border-radius:14px;padding:14px;margin:10px 0}.res.ok{background:var(--okb)}.res.mid{background:var(--midb)}.res.bad{background:var(--badb)}
+.res h3{margin:0 0 6px;font-size:20px}.res.ok h3{color:var(--ok)}.res.mid h3{color:var(--mid)}.res.bad h3{color:var(--bad)}
+.t{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid var(--line)}.t:last-child{border:0}
+.al{background:var(--midb);color:var(--tx);border-left:5px solid var(--mid);border-radius:8px;padding:10px;margin:8px 0;font-size:14px}
+.al.b{background:var(--badb);border-color:var(--bad)}
+.bars{display:flex;gap:6px;align-items:flex-end;height:130px;margin-top:10px}
+.bc{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;align-items:center;font-size:11px;color:var(--mut)}
+.bc i{width:100%;background:#e0a100;border-radius:4px 4px 0 0;min-height:2px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:#1f2326;border-top:3px solid #f5b800;padding-bottom:env(safe-area-inset-bottom,0px);z-index:9;max-width:600px;margin:0 auto}
+nav button{flex:1;border:0;background:none;color:#b4b9bc;padding:8px 0 7px;font-size:11px;font-weight:600}
+nav button span{display:block;font-size:22px}nav button.on{color:#f5b800}
+.hide{display:none}.it{padding:9px 0;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.09;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 120'%3E%3Cg fill='none' stroke='%23888' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='40' cy='88' r='22'/%3E%3Ccircle cx='160' cy='88' r='22'/%3E%3Cpath d='M40 88L78 60H118L160 88M78 60L96 88L118 60M118 60L128 38L146 34M128 38H112'/%3E%3Crect x='38' y='28' width='44' height='30' rx='4'/%3E%3C/g%3E%3C/svg%3E") no-repeat right -30px bottom 96px/340px 204px,linear-gradient(#888 50%,transparent 0) repeat-y left 10px top 0/4px 34px}
+.br{display:flex;gap:12px;align-items:center;background:#1f2326;border-radius:14px;padding:12px 14px;margin:6px 0 4px;border-bottom:4px solid #f5b800}
+.br h1{margin:0;color:#fff;font-size:20px}.br small{color:#c4c9cc}
+.rp{display:flex;flex-direction:column;gap:8px}
+.rs{border-radius:16px;padding:12px;text-align:center;background:#3a4045;color:#fff;min-height:110px;display:flex;flex-direction:column;justify-content:center}
+.rs h3{margin:0;font-size:30px;letter-spacing:.5px}.rs div{font-size:15px;margin-top:6px}
+.rs.ok{background:#15803d}.rs.mid{background:#f5b800;color:#1a1400}.rs.bad{background:#b91c1c}
+.rf{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.rf.c4{grid-template-columns:repeat(4,1fr)}
+.rf button{border:2px solid var(--line);background:var(--card);color:var(--tx);border-radius:12px;padding:6px 2px;text-align:center;touch-action:manipulation}
+.rf button small{display:block;font-size:12px}.rf button b{display:block;font-size:24px;min-height:30px}
+.rf button.on{border-color:#f5b800;box-shadow:0 0 0 2px #f5b800}
+.rk{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.rk button{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--tx);font-size:28px;font-weight:700;padding:11px 0;touch-action:manipulation}
+.rk button:active{background:var(--line)}
+.ra{display:flex;gap:6px}.ra button{flex:1;padding:11px 4px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--tx);font-weight:700;font-size:14px;touch-action:manipulation}
+.ra button.on{background:#f5b800;color:#1a1400;border-color:#f5b800}
+</style>
+</head>
+<body>
+<header class="br" onclick="go('planos')" style="cursor:pointer"><svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="11" fill="#f5b800"/><g transform="translate(5 12) scale(.17)" fill="none" stroke="#1f2326" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="88" r="22"/><circle cx="160" cy="88" r="22"/><path d="M40 88L78 60H118L160 88M78 60L96 88L118 60M118 60L128 38L146 34M128 38H112"/><rect x="38" y="28" width="44" height="30" rx="4"/></g></svg><div><h1>Rota Lucrativa</h1><small id="hsub">iFood · Keeta · Uber Moto</small></div></header>
+<main id="app"></main>
+<nav id="nav"></nav>
+<script>
+const $=s=>document.querySelector(s);
+const num=v=>parseFloat(String(v).replace(",","."))||0;
+const R=n=>"R$ "+(n||0).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,".");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const APPS=["iFood","Keeta","Uber Moto"],K="rotaLucrativa";let PLANO=0;const PNOMES={0:"Sem plano",1:"Reserva",2:"Meio Tanque",3:"Tanque Cheio"},PRECO={1:"R$ 19,90/mês",2:"R$ 37,90/mês",3:"R$ 57,90/mês"};
+const nowL=()=>{const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16)};
+const fd=t=>new Date(t).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+const PCT={giro:"Capital de giro",emerg:"Reserva de emergência",acid:"Fundo de acidentes",prol:"Pró-labore",inv:"Investimentos",luc:"Lucro retido no negócio"};
+function def(){return{
+moto:{modelo:"",ano:"",kmAtual:0,kml:0,comb:"Gasolina",preco:0},
+itens:[...["Seguro","Proteção veicular","IPVA","Licenciamento","Parcela da moto","Outros custos fixos"].map(n=>({n,t:"f",preco:0,meses:0})),
+...["Óleo do motor","Filtros","Pneus","Relação","Freios","Manutenção preventiva","Manutenção corretiva","Lavagem e conservação","Depreciação da moto"].map(n=>({n,t:"v",preco:0,km:0}))],
+sust:["Aluguel","Alimentação","Água","Energia elétrica","Internet","Telefone","Saúde e medicamentos","Transporte","Despesas domésticas","Outras despesas pessoais e familiares"].map(n=>({n,v:0})),
+res:["Troca de óleo","Pneus","Relação","Manutenção preventiva","Reparos inesperados","Acidentes e colisões","Franquia do seguro","Quedas e danos na moto","Períodos sem poder trabalhar","Emergências mecânicas"].map(n=>({n,meta:0,saldo:0})),
+cfg:{minKm:0,minHora:0,minCorrida:0,kmMes:0,dias:0,horas:0,resMes:0,invMes:0,lucMes:0,pct:{giro:0,emerg:0,acid:0,prol:0,inv:0,luc:0}},
+corr:[],desp:[],man:[]}}
+let S=load(),T="";
+function load(){try{const s=JSON.parse(localStorage.getItem(K));if(s)return Object.assign(def(),s)}catch(e){}return def()}
+function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}gauto()}
+const get=p=>p.split(".").reduce((o,k)=>o[k],S);
+function set(p,v,s){const k=p.split(".");let o=S;for(let i=0;i<k.length-1;i++)o=o[k[i]];o[k[k.length-1]]=s?v:num(v);save();upd()}
+const inp=(p,l,s)=>`<label>${l}<input ${s?"":'inputmode="decimal"'} value="${esc(get(p)||"")}" placeholder="${s?"":"0"}" onchange="set('${p}',this.value,${!!s})"></label>`;
+
+/* ===== Aviso de backup (7 dias) ===== */
+const BK_K=K+"Bkp";
+function bkMarca(){lsSet(BK_K,String(Date.now()))}
+function avisoBkp(){if(!S.corr.length&&!S.desp.length&&!S.man.length)return"";let t=+lsGet(BK_K)||0;if(!t){lsSet(BK_K,String(Date.now()));return""}
+const d=Math.floor((Date.now()-t)/864e5);if(d<7)return"";
+return`<div class="al" style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>💾 Faz ${d} dias sem backup. Se o navegador for limpo, você perde os dados.</span><button class="sm" onclick="bkp()">Fazer agora</button></div>`}
+
+/* ===== Google Drive: backup na conta do próprio cliente ===== */
+const GCLIENT=""; /* cole aqui o ID de cliente do Google. Vazio = os botões do Google ficam escondidos */
+const GFILE="rota-lucrativa-backup.json",GK=K+"Google";
+let GTOK=null,GEXP=0,GT=0;
+function gget(){try{return JSON.parse(localStorage.getItem(GK))||{}}catch(e){return{}}}
+function gset(o){try{localStorage.setItem(GK,JSON.stringify(Object.assign(gget(),o)))}catch(e){}}
+function gscript(){return new Promise((ok,er)=>{if(window.google&&google.accounts&&google.accounts.oauth2)return ok();const s=document.createElement("script");s.src="https://accounts.google.com/gsi/client";s.onload=()=>ok();s.onerror=()=>er(new Error("offline"));document.head.appendChild(s)})}
+function gtoken(){return new Promise((ok,er)=>{if(GTOK&&Date.now()<GEXP)return ok(GTOK);
+gscript().then(()=>{const c=google.accounts.oauth2.initTokenClient({client_id:GCLIENT,scope:"openid email https://www.googleapis.com/auth/drive.appdata",
+callback:r=>{if(r.error)return er(new Error(r.error));GTOK=r.access_token;GEXP=Date.now()+((+r.expires_in||3600)-60)*1000;ok(GTOK)},
+error_callback:e=>er(new Error((e&&e.type)||"erro"))});
+c.requestAccessToken({prompt:gget().email?"":"select_account"})}).catch(er)})}
+async function gfetch(u,o){const t=await gtoken();o=o||{};o.headers=Object.assign({Authorization:"Bearer "+t},o.headers||{});const r=await fetch(u,o);if(r.status==401)GTOK=null;if(!r.ok)throw new Error("HTTP "+r.status);return r}
+async function gemail(){try{const r=await gfetch("https://www.googleapis.com/oauth2/v3/userinfo");const j=await r.json();if(j.email)gset({email:j.email})}catch(e){}}
+async function gfind(){const r=await gfetch("https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields="+encodeURIComponent("files(id,modifiedTime)")+"&q="+encodeURIComponent("name='"+GFILE+"'"));const j=await r.json();return j.files&&j.files[0]||null}
+async function gsave(){const body=JSON.stringify(S),f=await gfind();
+if(f){await gfetch("https://www.googleapis.com/upload/drive/v3/files/"+f.id+"?uploadType=media",{method:"PATCH",headers:{"Content-Type":"application/json"},body})}
+else{const b="rl"+Date.now(),m=JSON.stringify({name:GFILE,parents:["appDataFolder"]});
+await gfetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",{method:"POST",headers:{"Content-Type":"multipart/related; boundary="+b},body:"--"+b+"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n"+m+"\r\n--"+b+"\r\nContent-Type: application/json\r\n\r\n"+body+"\r\n--"+b+"--"})}bkMarca()}
+function gauto(){if(!GCLIENT)return;clearTimeout(GT);if(GTOK&&Date.now()<GEXP)GT=setTimeout(()=>{if(GTOK&&Date.now()<GEXP)gsave().then(()=>{gset({last:fd(Date.now())});const e=document.getElementById("gst");if(e)e.textContent="Último backup no Drive: "+gget().last}).catch(()=>{})},15000)}
+function gerro(e){const m=String(e&&e.message||e);alert(/popup|access_denied|cancel/i.test(m)?"Login cancelado.":"Não foi possível falar com o Google. Confira a internet e tente de novo.")}
+async function gSalvar(){try{await gtoken();if(!gget().email)await gemail();await gsave();gset({last:fd(Date.now())});render();alert("Backup salvo no seu Google Drive.")}catch(e){gerro(e)}}
+async function gRestaurar(){try{const f=await gfind();if(!gget().email)await gemail();if(!f){alert("Nenhum backup encontrado nesta conta Google.");return}
+const r=await gfetch("https://www.googleapis.com/drive/v3/files/"+f.id+"?alt=media");const o=await r.json();if(!o.moto||!o.corr)throw new Error("invalido");
+ask("Substituir os dados atuais pelo backup do Google Drive?",()=>{S=Object.assign(def(),o);save();render();alert("Backup restaurado.")})}catch(e){if(String(e&&e.message)=="invalido")alert("O backup encontrado é inválido.");else gerro(e)}}
+function gSair(){try{if(GTOK&&window.google)google.accounts.oauth2.revoke(GTOK,()=>{})}catch(e){}GTOK=null;GEXP=0;gset({email:"",last:""});render()}
+function gcard(){if(!GCLIENT)return"";const g=gget();
+return`<div class="card"><b>Backup na sua conta Google</b><small>Seus dados ficam no seu próprio Google Drive, numa pasta escondida só deste app. Nós não temos acesso.</small>
+${g.email?`<div class="t" style="margin-top:8px"><span>Conta</span><b>${esc(g.email)}</b></div>`:""}
+<button class="btn" onclick="gSalvar()">${g.email?"Salvar agora no Google Drive":"Entrar com Google e salvar"}</button>
+<button class="btn s" onclick="gRestaurar()">Restaurar do Google Drive</button>
+${g.email?'<button class="btn s" onclick="gSair()">Sair da conta Google</button>':""}
+<small id="gst" style="display:block;margin-top:8px">${g.last?"Último backup no Drive: "+esc(g.last):"Nenhum backup no Drive ainda."}</small></div>`}
+
+/* ===== Acesso por plano (um único app) ===== */
+const MODO_TESTE=false; /* só para o dono testar: true deixa QUALQUER pessoa escolher o plano. Para vender, deixe false. */
+let ACESSO={plano:0,venceEm:null,cliente:""};
+const LINKS={1:"https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=fac6a573dfac4f0987eea49afc88daff",2:"https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=b3823ffc25f54075a505f73444a6499e",3:"https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=b52b0db9026d4181a9bdc9d227815a5e"};
+const MIN={inicio:2,calc:1,ganhos:2,fin:3,moto:1,rel:2};
+const FEATS={1:["Calculadora com semáforo","Lucro por km e por hora","Custo real da moto por km","Backup e suporte por e-mail"],
+2:["Tudo do plano Reserva","Registro de corridas e despesas","Fechamento do dia, da semana e do mês","Gráficos de faturamento","Comparação entre iFood, Keeta e Uber Moto"],
+3:["Tudo do plano Meio Tanque","Sustento da casa e metas","Divisão do lucro: giro, reservas e salário","Alertas de manutenção da moto","Exportar para Excel"]};
+function testeGet(){try{return JSON.parse(localStorage.getItem(K+"Teste"))||{}}catch(e){return{}}}
+function testeSet(k,v){const t=testeGet();t[k]=v;try{localStorage.setItem(K+"Teste",JSON.stringify(t))}catch(e){}render()}
+function acessoAtual(){if(MODO_TESTE){const t=testeGet(),p=t.plano==null?3:+t.plano;let v=null;if(t.venc=="3d")v=Date.now()+3*864e5;if(t.venc=="x")v=Date.now()-864e5;return{plano:p,venceEm:v}}return ACESSO}
+function planoAtual(){const a=acessoAtual();if(!a.plano)return 0;if(a.venceEm&&agora()>new Date(a.venceEm).getTime())return 0;return a.plano}
+function avisoPlano(){const a=acessoAtual();if(!a.plano||!a.venceEm)return"";const d=Math.ceil((new Date(a.venceEm).getTime()-agora())/864e5);
+if(d<0)return`<div class="al b">Seu plano venceu. Renove para voltar a usar as áreas do plano. Seus dados continuam salvos.</div>`;
+if(d<=5)return`<div class="al">Seu plano vence em ${d} dia${d==1?"":"s"}. Renove para não perder o acesso.</div>`;return""}
+function testeBar(){const t=testeGet(),p=t.plano==null?3:+t.plano;
+return`<div class="al" style="border-color:#e0a100"><b>MODO TESTE</b> (só para você testar; desligue antes de vender)<div class="row"><label>Plano<select onchange="testeSet('plano',this.value)">${[0,1,2,3].map(x=>`<option value="${x}" ${x==p?"selected":""}>${PNOMES[x]}</option>`).join("")}</select></label><label>Vencimento<select onchange="testeSet('venc',this.value)">${[["","Sem aviso"],["3d","Vence em 3 dias"],["x","Vencido"]].map(o=>`<option value="${o[0]}" ${(t.venc||"")==o[0]?"selected":""}>${o[1]}</option>`).join("")}</select></label></div></div>`}
+const comprarBtn=(p,t)=>LINKS[p]?`<a class="btn" style="text-decoration:none;text-align:center" href="${LINKS[p]}" target="_blank" rel="noopener">${t}</a>`:`<button class="btn" onclick="comprar(${p})">${t}</button>`;
+function comprar(p){const l=LINKS[p];if(l){window.open(l,"_blank");return}alert("O pagamento deste plano ainda não está disponível. Em breve!")}
+function desbloquear(m){window.PF=m;go("planos")}
+/* ===== Código de acesso (assinado) ===== */
+const PUBKEY={"kty":"EC","crv":"P-256","x":"ZVk_4_gBSVI4TvR-bKPQ83pOwLkZInVfrftvYANwkTs","y":"CI4ClOFeZNgNWLsEiXigcQpU1HptoGt59CmoV2kNVtk"};
+const LIC_K=K+"Licenca",VISTO_K=K+"Visto";let LICERR="";
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function agora(){const v=+lsGet(VISTO_K)||0,n=Date.now();if(n>v)lsSet(VISTO_K,String(n));return Math.max(n,v)}
+function ymd(t,fim){if(!/^\d{8}$/.test(t||""))return 0;const y=+t.slice(0,4),m=+t.slice(4,6),d=+t.slice(6,8);return fim?new Date(y,m-1,d,23,59,59).getTime():new Date(y,m-1,d).getTime()}
+function b64d(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+async function licVerify(code){const ruim={ok:0,msg:"Código inválido. Copie o código inteiro, sem cortar nem mudar nada."};
+code=String(code||"").replace(/\s+/g,"");const pt=code.split(".");if(pt.length!=2)return ruim;
+if(!(window.crypto&&crypto.subtle))return{ok:0,msg:"Abra o app pelo link do navegador (https) para ativar o código."};
+let pl,sg,bom=false;try{pl=b64d(pt[0]);sg=b64d(pt[1])}catch(e){return ruim}
+try{const k=await crypto.subtle.importKey("jwk",PUBKEY,{name:"ECDSA",namedCurve:"P-256"},false,["verify"]);bom=await crypto.subtle.verify({name:"ECDSA",hash:"SHA-256"},k,sg,pl)}catch(e){}
+if(!bom)return ruim;const t=new TextDecoder().decode(pl).split("|"),p=+t[0],i=ymd(t[1]),v=ymd(t[2],1);
+if(!(p>=1&&p<=3)||!i||!v)return ruim;return{ok:1,plano:p,emitido:i,venceEm:v,cliente:t[3]||""}}
+const relogioRuim=r=>r.emitido-864e5>agora();
+async function licLoad(){const c=lsGet(LIC_K);if(!c)return;const r=await licVerify(c);
+if(r.ok&&!relogioRuim(r)){ACESSO={plano:r.plano,venceEm:r.venceEm,cliente:r.cliente};LICERR=""}
+else{ACESSO={plano:0,venceEm:null,cliente:""};LICERR=r.ok?"A data do seu celular parece errada. Ajuste a data e abra o app de novo.":r.msg}render()}
+async function licAtivar(){const el=$("#lic_in"),code=el?el.value:"",r=await licVerify(code);
+if(!r.ok){alert(r.msg);return}
+if(relogioRuim(r)){alert("A data do seu celular parece errada. Ajuste a data e tente de novo.");return}
+if(r.venceEm<agora()){alert("Este código já venceu. Peça um código novo pelo e-mail de suporte.");return}
+lsSet(LIC_K,String(code).replace(/\s+/g,""));ACESSO={plano:r.plano,venceEm:r.venceEm,cliente:r.cliente};LICERR="";
+alert("Plano "+PNOMES[r.plano]+" ativado!");T="";render()}
+function licCard(){const a=ACESSO;let info="";
+if(a.plano&&a.venceEm)info=`<div class="t"><span>Cliente</span><b>${esc(a.cliente||"")}</b></div><div class="t"><span>Vence em</span><b>${new Date(a.venceEm).toLocaleDateString("pt-BR")}</b></div>`;
+return`<div class="card"><b>Já tenho um código</b><br><small>Depois de pagar, envie o comprovante por e-mail. Você recebe um código. Cole aqui para ativar ou renovar.</small>${info}${LICERR?`<div class="al b">${esc(LICERR)}</div>`:""}
+<label>Seu código<textarea id="lic_in" rows="3" placeholder="Cole o código aqui" style="width:100%;padding:10px;font-size:14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--tx)"></textarea></label>
+<button class="btn" onclick="licAtivar()">Ativar código</button>
+<a class="btn s" style="text-decoration:none;text-align:center" href="mailto:rotalucrativa1@gmail.com?subject=Comprovante%20Rota%20Lucrativa&body=Plano%20escolhido%3A%20%0ANome%3A%20%0AAnexe%20o%20comprovante%20de%20pagamento.">Enviar comprovante por e-mail</a><small style="display:block;margin-top:8px">E-mail: rotalucrativa1@gmail.com</small></div>`}
+const bloqMini=(n,m)=>`<div class="al" style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>🔒 ${n}<br><small>Plano ${PNOMES[m]}</small></span><button class="sm" onclick="desbloquear(${m})">Desbloquear</button></div>`;
+const bloqCard=(n,m)=>`<div class="card">${bloqMini(n,m)}</div>`;
+const planoLista=m=>`<ul style="margin:6px 0 0;padding-left:20px;font-size:15px">${FEATS[m].map(x=>`<li>${x}</li>`).join("")}</ul>`;
+function vBloq(t){const m=MIN[t]||1,nome=ALLT.find(x=>x[0]==t)[2],a=acessoAtual();
+return`<div class="card" style="text-align:center"><div style="font-size:44px">🔒</div><h2>${nome} faz parte do plano ${PNOMES[m]}</h2>
+<small>${PLANO?"Seu plano atual é o "+PNOMES[PLANO]+".":(a.plano?"Seu plano venceu.":"Você ainda não tem um plano ativo.")}</small>
+<div style="text-align:left;margin-top:10px"><b>O plano ${PNOMES[m]} tem:</b>${planoLista(m)}</div>
+${comprarBtn(m,"Desbloquear agora com o plano "+PNOMES[m]+" · "+PRECO[m])}
+<button class="btn s" onclick="go('planos')">Ver planos e ativar meu código</button></div>`}
+function vPlanos(){const f=window.PF;window.PF=0;
+return`<div class="card"><b>Planos</b><br><small>${PLANO?"Seu plano atual: "+PNOMES[PLANO]+".":"Você ainda não tem um plano ativo."} Seus dados continuam salvos se você trocar de plano.</small></div>`+
+[1,2,3].map(p=>`<div class="card" style="${p==f?"border:2px solid #f5b800":""}"><h2 style="margin-top:0">${PNOMES[p]} · ${PRECO[p]}</h2>${planoLista(p)}
+${p==PLANO?'<div class="al" style="background:var(--okb);border-color:var(--ok)">✅ Este é o seu plano</div>':p<PLANO?"<small>Já incluído no seu plano.</small>":`${comprarBtn(p,(PLANO?"Desbloquear agora com o plano ":"Assinar o plano ")+PNOMES[p])}`}</div>`).join("")+
+`${licCard()}<div class="card"><small>Dúvidas? Escreva para rotalucrativa1@gmail.com</small></div>`}
+
+/* ===== Modo Corrida ===== */
+function modoCalc(){try{return localStorage.getItem(K+"Modo")||"rapido"}catch(e){return"rapido"}}
+function setModo(m){try{localStorage.setItem(K+"Modo",m)}catch(e){}render()}
+function vCalc(){return modoCalc()=="rapido"?vRapido():vCalcDet()}
+function rPrefGet(){try{return JSON.parse(localStorage.getItem(K+"Rapido"))||{}}catch(e){return{}}}
+function rPrefSet(){try{localStorage.setItem(K+"Rapido",JSON.stringify({app:QR.app,tx:QR.tx,taxa:QR.f[3]}))}catch(e){}}
+const QR=(()=>{const p=rPrefGet();return{a:0,f:["","","",p.taxa||""],app:APPS.includes(p.app)?p.app:APPS[0],tx:!!p.tx}})();
+const RN=["Valor R$","Km total","Tempo min","Taxa %"];
+function rCents(d){d=d||"";return d.length<=2?d:d.slice(0,-2)+","+d.slice(-2)}
+const rShow=i=>i==0?rCents(QR.f[0]):(QR.f[i]||"");
+const rNum=i=>num(rShow(i));
+function rAval(){const v=rNum(0),dist=rNum(1),mi=rNum(2);if(!v||!dist)return null;
+const C=S.cfg,c=ck(),tp=QR.tx?rNum(3):0,liq=tp?v*(1-tp/100):v,custo=dist*c.t,l=liq-custo,lkm=l/dist,lh=mi?l/(mi/60):0;let cl,tx;
+if(l<=0||(C.minKm&&lkm<C.minKm)){cl="bad";tx="🔴 RECUSE"}
+else if(!(C.minKm||C.minHora||C.minCorrida)){cl="mid";tx="🟡 DEFINA SUAS METAS"}
+else if((mi&&C.minHora&&lh<C.minHora)||(C.minCorrida&&l<C.minCorrida)){cl="mid";tx="🟡 ATENÇÃO: lucro baixo"}
+else{cl="ok";tx="🟢 ACEITE"}
+return{cl,tx,liq,custo,l,lkm,lh,mi,v,dist,c}}
+function rResHtml(a){if(!a)return`<h3>Digite valor e km</h3><div>Valor: 14 = R$ 14 · 749 = R$ 7,49</div>`;
+return`<h3>${a.tx}</h3><div><b>${R(a.l)}</b> de lucro · ${R(a.lkm)}/km${a.mi?" · "+R(a.lh)+"/h":""}</div>${a.c.t==0?"<div>⚠ Cadastre os custos da moto na aba Moto</div>":""}${!a.mi&&S.cfg.minHora?"<div>Informe o tempo para checar o R$/hora</div>":""}`}
+function rFieldsHtml(){const n=QR.tx?4:3;return Array.from({length:n},(_,i)=>`<button class="${QR.a==i?"on":""}" onclick="rSel(${i})"><small>${RN[i]}</small><b>${esc(rShow(i))||"–"}</b></button>`).join("")}
+function rBtnHtml(a){if(!a)return"";return PLANO>1?'<button class="btn" style="margin:0" onclick="regQ()">✅ Aceitei: registrar esta corrida</button>':bloqMini("Registrar corridas e ver seus ganhos",2)}
+function rAtualiza(){const a=rAval(),r=$("#rr");if(!r)return;r.className="rs "+(a?a.cl:"");r.innerHTML=rResHtml(a);$("#rf").className="rf"+(QR.tx?" c4":"");$("#rf").innerHTML=rFieldsHtml();$("#rb").innerHTML=rBtnHtml(a);$("#rk").innerHTML=rKeysHtml();
+Q=a?{app:QR.app,v:a.liq,km:a.dist,min:a.mi,c:a.custo}:null}
+function rTecla(k){let s=QR.f[QR.a]||"";
+if(QR.a==0){if(k=="⌫")s=s.slice(0,-1);else if(/^\d$/.test(k)){if(s.length>=6)return;s=s=="0"?k:s+k}else return;QR.f[0]=s;rAtualiza();return}
+if(k=="⌫")s=s.slice(0,-1);
+else if(k==","){if(QR.a!=1||s.includes(","))return;s=(s||"0")+","}
+else{if(s.length>=7)return;if(s.includes(",")&&s.split(",")[1].length>=2)return;s=s=="0"?k:s+k}
+QR.f[QR.a]=s;if(QR.a==3)rPrefSet();rAtualiza()}
+function rKeysHtml(){return["7","8","9","4","5","6","1","2","3",QR.a==1?",":"","0","⌫"].map(k=>k?`<button onclick="rTecla('${k}')">${k}</button>`:`<button disabled style="opacity:.25">&nbsp;</button>`).join("")}
+function rSel(i){QR.a=i;rAtualiza()}
+function rProx(){QR.a=(QR.a+1)%(QR.tx?4:3);rAtualiza()}
+function rLimpar(){QR.f=["","","",QR.f[3]];QR.a=0;rAtualiza()}
+function rApp(a){QR.app=a;rPrefSet();render()}
+function rTaxa(){QR.tx=!QR.tx;if(!QR.tx&&QR.a==3)QR.a=0;rPrefSet();render()}
+function vRapido(){const a=rAval();Q=a?{app:QR.app,v:a.liq,km:a.dist,min:a.mi,c:a.custo}:null;
+return`<div class="rp"><div id="rr" class="rs ${a?a.cl:""}">${rResHtml(a)}</div>
+<div class="ra">${APPS.map(x=>`<button class="${x==QR.app?"on":""}" onclick="rApp('${x}')">${x}</button>`).join("")}</div>
+<div id="rf" class="rf${QR.tx?" c4":""}">${rFieldsHtml()}</div>
+<div class="rk" id="rk">${rKeysHtml()}</div>
+<div class="ra"><button onclick="rProx()">Próximo ➜</button><button onclick="rLimpar()">Limpar</button><button class="${QR.tx?"on":""}" onclick="rTaxa()">Taxa: ${QR.tx?"sim":"não"}</button></div>
+<div id="rb">${rBtnHtml(a)}</div>
+<button class="btn s" style="margin:0" onclick="setModo('det')">Cálculo detalhado</button></div>`}
+
+/* ===== avisos dentro da página ===== */
+function dlgBox(msg,btns){let o=document.getElementById("dlgx");if(o)o.remove();o=document.createElement("div");o.id="dlgx";
+o.style.cssText="position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:20px";
+const c=document.createElement("div");c.style.cssText="background:var(--card);color:var(--tx);border-radius:14px;padding:18px;max-width:420px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,.4)";
+const p=document.createElement("div");p.style.cssText="white-space:pre-wrap;font-size:16px;line-height:1.4;margin-bottom:14px";p.textContent=msg;c.appendChild(p);
+const r=document.createElement("div");r.style.cssText="display:flex;gap:8px";
+btns.forEach(b=>{const x=document.createElement("button");x.textContent=b[0];x.className="btn"+(b[2]?" s":"");x.style.cssText="margin:0;flex:1";x.onclick=()=>{o.remove();if(b[1])b[1]()};r.appendChild(x)});
+c.appendChild(r);o.appendChild(c);document.body.appendChild(o)}
+window.alert=function(m){dlgBox(String(m),[["OK"]])};
+function ask(m,fn){dlgBox(m,[["Cancelar",null,1],["Confirmar",fn]])}
+/* ===== cálculos ===== */
+function ck(){const m=S.moto,f=m.kml>0?m.preco/m.kml:0;let v=0,fx=0;
+S.itens.forEach(i=>{if(i.t=="v"&&i.km>0)v+=i.preco/i.km;if(i.t=="f")fx+=i.preco/(i.meses||1)});
+const fk=S.cfg.kmMes>0?fx/S.cfg.kmMes:0;return{f,v,fx,fk,t:f+v+fk}}
+function range(p){const n=new Date();let a=new Date(n.getFullYear(),n.getMonth(),n.getDate()),b=new Date(a);b.setDate(b.getDate()+1);
+if(p=="semana"){a.setDate(a.getDate()-((a.getDay()+6)%7));b=new Date(a);b.setDate(b.getDate()+7)}
+if(p=="mes"){a=new Date(n.getFullYear(),n.getMonth(),1);b=new Date(n.getFullYear(),n.getMonth()+1,1)}
+if(p=="tudo"){a=new Date(2000,0,1);b=new Date(2100,0,1)}return[a,b]}
+const inR=(r,p)=>{const x=new Date(r.t),[a,b]=range(p);return x>=a&&x<b};
+function agg(p,app){let v=0,km=0,mi=0,c=0;const rs=S.corr.filter(r=>inR(r,p)&&(!app||r.app==app));
+rs.forEach(r=>{v+=r.v;km+=r.km;mi+=r.min;c+=r.c});
+return{n:rs.length,v,km,h:mi/60,c,l:v-c,kmv:km?v/km:0,hv:mi?v/(mi/60):0,lkm:km?(v-c)/km:0,lh:mi?(v-c)/(mi/60):0}}
+const dsp=(p,prof)=>S.desp.filter(d=>inR(d,p)&&(prof?d.tp=="p":1)).reduce((s,d)=>s+d.v,0);
+const pSum=()=>Object.values(S.cfg.pct).reduce((a,b)=>a+b,0);
+function sep(l){const x=Math.max(l,0),o={};for(const k in PCT)o[k]=x*S.cfg.pct[k]/100;return o}
+const sustMes=()=>S.sust.reduce((s,x)=>s+x.v,0);
+const motoMes=()=>{const c=ck(),k=S.cfg.kmMes;return c.fx+k*(c.f+c.v)};
+const rsv=()=>S.res.reduce((s,r)=>s+r.saldo,0);
+function sumR(a,b){return S.corr.reduce((s,r)=>{const x=new Date(r.t);return x>=a&&x<b?s+r.v:s},0)}
+const bars=(t,a)=>{const mx=Math.max(...a.map(x=>x[1]),1);return`<div class="card"><b>${t}</b><div class="bars">${a.map(x=>`<div class="bc"><em style="font-style:normal">${Math.round(x[1])}</em><i style="height:${x[1]/mx*80}%"></i><span>${x[0]}</span></div>`).join("")}</div></div>`};
+function series(){const n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate(),D=[],W=[],M=[];
+for(let i=6;i>=0;i--){const a=new Date(y,m,d-i);D.push([a.getDate()+"/"+(a.getMonth()+1),sumR(a,new Date(y,m,d-i+1))])}
+const mon=new Date(y,m,d-((n.getDay()+6)%7));
+for(let i=3;i>=0;i--){const a=new Date(mon);a.setDate(a.getDate()-7*i);const b=new Date(a);b.setDate(b.getDate()+7);W.push([a.getDate()+"/"+(a.getMonth()+1),sumR(a,b)])}
+for(let i=5;i>=0;i--){const a=new Date(y,m-i,1);M.push([a.toLocaleString("pt-BR",{month:"short"}),sumR(a,new Date(y,m-i+1,1))])}
+return{D,W,M}}
+const kp=(l,v)=>`<div class="k"><span>${l}</span><b>${v}</b></div>`;
+const tr=(l,v)=>`<div class="t"><span>${l}</span><b>${v}</b></div>`;
+
+/* ===== telas ===== */
+function vInicio(){const d=agg("dia"),w=agg("semana"),m=agg("mes"),a=agg("tudo"),s=sep(m.l),sm=sustMes(),al=[];
+if(ck().t==0)al.push(["Cadastre sua moto e seus custos em <b>Minha moto</b> para o lucro ser calculado corretamente.",1]);
+if(PLANO>2&&pSum()!=100)al.push(["Defina as porcentagens da separação do dinheiro (somando 100%) em <b>Financeiro</b>.",0]);
+if(PLANO>2&&sm>0&&s.prol<sm)al.push([`Seu pró-labore do mês (${R(s.prol)}) está abaixo do necessário para a casa (${R(sm)}).`,1]);
+const sr=series();
+return al.map(x=>`<div class="al ${x[1]?"b":""}">${x[0]}</div>`).join("")+
+`<div class="card"><b>Faturamento</b><div class="g2" style="margin-top:8px">${kp("Hoje",R(d.v))}${kp("Semana",R(w.v))}${kp("Mês",R(m.v))}${PLANO>2?kp("Lucro acumulado",R(sep(a.l).luc)):kp("Corridas no mês",m.n)}</div></div>
+<div class="card"><b>Mês atual</b><div class="g2" style="margin-top:8px">${kp("Km rodados",m.km.toFixed(1).replace(".",","))}${kp("Horas",m.h.toFixed(1).replace(".",","))}${kp("R$ por km",R(m.kmv))}${kp("R$ por hora",R(m.hv))}${kp("Despesas pagas (moto)",R(dsp("mes",1)))}${kp("Lucro operacional",R(m.l))}${PLANO>2?kp("Pró-labore disponível",R(s.prol))+kp("Dinheiro reservado",R(rsv())):""}</div></div>`+
+bars("Faturamento dos últimos 7 dias (R$)",sr.D)+bars("Últimas 4 semanas (R$)",sr.W)+bars("Últimos 6 meses (R$)",sr.M)}
+
+function vCalcDet(){return`<button class="btn" style="margin:0 0 10px" onclick="setModo('rapido')">⚡ Modo Corrida (rápido)</button><div class="card"><label>Aplicativo<select id="q_app">${APPS.map(a=>`<option>${a}</option>`).join("")}</select></label>
+<label>Valor oferecido (R$)<input id="q_v" inputmode="decimal" oninput="calcQ()"></label>
+<div class="row"><label>Km até a coleta<input id="q_k1" inputmode="decimal" oninput="calcQ()"></label><label>Km coleta → destino<input id="q_k2" inputmode="decimal" oninput="calcQ()"></label></div>
+<div class="row"><label>Km extra / retorno<input id="q_k3" inputmode="decimal" oninput="calcQ()"></label><label>Tempo (min)<input id="q_min" inputmode="decimal" oninput="calcQ()"></label></div>
+<label>O valor já é líquido de taxas?<select id="q_tp" onchange="calcQ()"><option value="l">Sim, já é líquido</option><option value="t">Não, descontar taxa</option></select></label>
+<label id="q_txl" class="hide">Taxa do app (%)<input id="q_tx" inputmode="decimal" oninput="calcQ()"></label></div>
+<div id="qres"></div>`}
+let Q=null;
+function calcQ(){const g=i=>num($("#"+i).value);$("#q_txl").classList.toggle("hide",$("#q_tp").value!="t");
+const v=g("q_v"),dist=g("q_k1")+g("q_k2")+g("q_k3"),mi=g("q_min");if(!v||!dist){$("#qres").innerHTML="";Q=null;return}
+const c=ck(),liq=$("#q_tp").value=="t"?v*(1-g("q_tx")/100):v,custo=dist*c.t,l=liq-custo,lkm=l/dist,lh=mi?l/(mi/60):0;
+const pv=pSum()-S.cfg.pct.prol,aft=l>0?l*(1-pv/100):l,C=S.cfg;let cl,tx;
+if(l<=0||(C.minKm&&lkm<C.minKm)){cl="bad";tx="VERMELHO: não aceite"}
+else if(!(C.minKm||C.minHora||C.minCorrida)){cl="mid";tx="AMARELO: defina suas metas mínimas"}
+else if((C.minHora&&lh<C.minHora)||(C.minCorrida&&l<C.minCorrida)){cl="mid";tx="AMARELO: rentabilidade baixa"}
+else{cl="ok";tx="VERDE: corrida recomendada"}
+Q={app:$("#q_app").value,v:liq,km:dist,min:mi,c:custo};
+$("#qres").innerHTML=`<div class="res ${cl}"><h3>${tx}</h3>
+${tr("Distância total",dist.toFixed(1).replace(".",",")+" km")}${tr("Valor bruto por km",R(v/dist))}${tr("Valor líquido da corrida",R(liq))}
+${tr("Custo da moto por km",R(c.t))}${tr("Custo total da corrida",R(custo))}${tr("Lucro estimado",R(l))}
+${tr("Ganho líquido por km",R(lkm))}${tr("Ganho líquido por hora",mi?R(lh):"informe o tempo")}${PLANO>2?tr("Após reservas e investimentos",R(aft)):""}</div>
+${c.t==0?'<div class="al b">Seus custos da moto ainda não foram cadastrados. O lucro mostrado está sem custos.</div>':""}
+${PLANO>1?'<button class="btn" onclick="regQ()">Registrar esta corrida</button>':bloqMini("Registrar esta corrida e acompanhar seus ganhos",2)}`}
+function regQ(){if(!Q)return;S.corr.push({id:Date.now(),t:nowL(),...Q});save();go("ganhos")}
+
+function vGanhos(){const f=window.F||(window.F={p:"mes",a:""});
+const rs=S.corr.filter(r=>inR(r,f.p)&&(!f.a||r.app==f.a)).sort((a,b)=>b.t<a.t?-1:1),ds=S.desp.filter(d=>inR(d,f.p)).sort((a,b)=>b.t<a.t?-1:1);
+return`<div class="card"><b id="ctit">Registrar corrida concluída</b><input type="hidden" id="c_id">
+<label>Data e horário<input type="datetime-local" id="c_t" value="${nowL()}"></label>
+<label>Aplicativo<select id="c_app">${APPS.map(a=>`<option>${a}</option>`).join("")}</select></label>
+<div class="row"><label>Valor recebido (R$)<input id="c_v" inputmode="decimal"></label><label>Km total<input id="c_km" inputmode="decimal"></label></div>
+<label>Tempo utilizado (min)<input id="c_min" inputmode="decimal"></label>
+<small>O custo estimado e o resultado líquido são calculados com os custos da sua moto.</small>
+<button class="btn" onclick="addC()">Salvar corrida</button></div>
+<div class="card"><b>Registrar despesa</b>
+<label>Data<input type="date" id="d_t" value="${nowL().slice(0,10)}"></label>
+<label>Categoria<select id="d_c">${["Combustível","Seguro","Oficina","Óleo","Pneus","Alimentação durante o trabalho","Estacionamento","Outros gastos"].map(a=>`<option>${a}</option>`).join("")}</select></label>
+<div class="row"><label>Valor (R$)<input id="d_v" inputmode="decimal"></label><label>Tipo<select id="d_tp"><option value="p">Profissional</option><option value="e">Pessoal</option></select></label></div>
+<small>Despesas pagas ficam só como registro. O custo da moto já entra por km nas corridas e não é descontado duas vezes.</small>
+<button class="btn s" onclick="addD()">Salvar despesa</button></div>
+<div class="card"><div class="row"><select onchange="F.p=this.value;render()">${[["dia","Hoje"],["semana","Semana"],["mes","Mês"],["tudo","Tudo"]].map(o=>`<option value="${o[0]}" ${f.p==o[0]?"selected":""}>${o[1]}</option>`).join("")}</select>
+<select onchange="F.a=this.value;render()"><option value="">Todos os apps</option>${APPS.map(a=>`<option ${f.a==a?"selected":""}>${a}</option>`).join("")}</select></div>
+<h2>Corridas (${rs.length})</h2>${rs.map(r=>`<div class="it"><b>${R(r.v)}</b> · ${r.app}<br><small>${fd(r.t)} · ${r.km.toFixed(1).replace(".",",")} km · ${r.min} min · custo ${R(r.c)} · resultado <b>${R(r.v-r.c)}</b></small><br><button class="sm" style="margin:6px 6px 0 0" onclick="edC(${r.id})">Editar</button><button class="sm" onclick="delC(${r.id})">Excluir</button></div>`).join("")||"<small>Nenhuma corrida no período.</small>"}
+<h2>Despesas (${ds.length})</h2>${ds.map(d=>`<div class="it"><b>${R(d.v)}</b> · ${d.c} (${d.tp=="p"?"profissional":"pessoal"})<small> · ${d.t.slice(8,10)}/${d.t.slice(5,7)}</small><button class="sm" onclick="delD(${d.id})">Excluir</button></div>`).join("")||"<small>Nenhuma despesa no período.</small>"}</div>`}
+function addC(){const v=num($("#c_v").value),km=num($("#c_km").value),id=num($("#c_id").value);if(!v||!km){alert("Informe valor e km.");return}
+const r={id:id||Date.now(),t:$("#c_t").value||nowL(),app:$("#c_app").value,v,km,min:num($("#c_min").value),c:km*ck().t};
+if(id)S.corr=S.corr.map(x=>x.id==id?r:x);else S.corr.push(r);save();render()}
+function edC(id){const r=S.corr.find(x=>x.id==id);$("#c_id").value=id;$("#c_t").value=r.t;$("#c_app").value=r.app;$("#c_v").value=r.v;$("#c_km").value=r.km;$("#c_min").value=r.min;$("#ctit").textContent="Editando corrida";scrollTo(0,0)}
+function delC(id){ask("Excluir esta corrida?",()=>{S.corr=S.corr.filter(x=>x.id!=id);save();render()})}
+function addD(){const v=num($("#d_v").value);if(!v){alert("Informe o valor.");return}S.desp.push({id:Date.now(),t:$("#d_t").value,c:$("#d_c").value,v,tp:$("#d_tp").value});save();render()}
+function delD(id){ask("Excluir esta despesa?",()=>{S.desp=S.desp.filter(x=>x.id!=id);save();render()})}
+
+const SUM={
+sMeta(){const c=ck(),C=S.cfg,sm=sustMes(),mm=motoMes(),a=mm+sm,b=a+C.resMes,g=b+C.invMes+C.lucMes,D=C.dias||1,H=C.horas||1;
+const lv=(n,x)=>`<div class="card" style="margin:6px 0"><b>${n}</b>${tr("Por mês",R(x))}${tr("Por semana",R(x*12/52))}${tr("Por dia",C.dias?R(x/D):"informe os dias")}${tr("Por hora",C.dias&&C.horas?R(x/D/H):"informe dias e horas")}</div>`;
+return`${tr("Custo da moto por mês",R(mm))}${tr("Sustento da casa por mês",R(sm))}${lv("META MÍNIMA: moto + casa",a)}${lv("META CONFORTÁVEL: + reservas",b)}${lv("META DE CRESCIMENTO: + investimento e lucro",g)}<small>Valores de faturamento líquido de taxas.</small>`},
+sSust(){const m=sustMes(),D=S.cfg.dias||1,H=S.cfg.horas||1;return`${tr("Preciso por mês",R(m))}${tr("Por semana",R(m*12/52))}${tr("Por dia",S.cfg.dias?R(m/D):"informe os dias")}${tr("Por hora",S.cfg.dias&&S.cfg.horas?R(m/D/H):"informe dias e horas")}${tr("Pró-labore mensal necessário",R(m))}`},
+sSep(){const m=agg("mes"),s=sep(m.l),p=pSum(),sm=sustMes();
+return`${tr("Faturamento do mês",R(m.v))}${tr("(−) Custos da moto (provisão por km)",R(m.c))}${tr("= Lucro operacional",R(m.l))}`+Object.keys(PCT).map(k=>tr(`${PCT[k]} (${S.cfg.pct[k]}%)`,R(s[k]))).join("")+
+(p!=100?`<div class="al">As porcentagens somam ${p}%. O ideal é 100%.</div>`:"")+(m.l<0?'<div class="al b">Prejuízo no mês: nada para separar.</div>':"")+
+`<div class="al" style="background:var(--okb);border-color:var(--ok)">Pode retirar sem comprometer o trabalho: <b>${R(s.prol)}</b></div>`+(sm>0&&s.prol<sm?`<div class="al b">Abaixo do necessário para a casa (${R(sm)}).</div>`:"")},
+sMoto(){const c=ck();return`${tr("Combustível por km",R(c.f))}${tr("Manutenção e desgaste por km",R(c.v))}${tr("Custos fixos por km",S.cfg.kmMes?R(c.fk):"informe km por mês")}${tr("Custo real por km",R(c.t))}${tr("Custo mensal da moto",R(motoMes()))}`}};
+function upd(){for(const id in SUM){const e=document.getElementById(id);if(e)e.innerHTML=SUM[id]()}}
+
+function vFin(){const C="cfg.";return`<div class="card"><b>MEU SUSTENTO (por mês)</b>${S.sust.map((x,i)=>inp(`sust.${i}.v`,x.n)).join("")}<div id="sSust" style="margin-top:10px"></div></div>
+<div class="card"><b>Metas</b><div class="row">${inp(C+"dias","Dias de trabalho por mês")}${inp(C+"horas","Horas por dia")}</div>
+${inp(C+"kmMes","Km que pretende rodar por mês")}${inp(C+"resMes","Reservas desejadas por mês (R$)")}${inp(C+"invMes","Investimento desejado por mês (R$)")}${inp(C+"lucMes","Lucro desejado por mês (R$)")}
+<h2>Suas metas mínimas por corrida</h2><div class="row">${inp(C+"minKm","Mín. R$/km")}${inp(C+"minHora","Mín. R$/hora")}</div>${inp(C+"minCorrida","Mín. lucro por corrida (R$)")}<div id="sMeta" style="margin-top:10px"></div></div>
+<div class="card"><b>Separação do dinheiro (% do lucro operacional)</b><small>Primeiro paga-se a moto, depois o lucro é dividido. Escolha suas porcentagens (somando 100%).</small>${Object.keys(PCT).map(k=>inp("cfg.pct."+k,PCT[k]+" (%)")).join("")}<div id="sSep" style="margin-top:10px"></div></div>
+<div class="card"><b>Fundos de manutenção e proteção</b><small>Guarde o dinheiro reservado à parte. Ele não é lucro para gastar.</small>${S.res.map((x,i)=>`<h2>${x.n}</h2><div class="row">${inp(`res.${i}.saldo`,"Saldo (R$)")}${inp(`res.${i}.meta`,"Necessário (R$)")}</div><small>Falta acumular: ${R(Math.max(x.meta-x.saldo,0))}</small>`).join("")}</div>`}
+
+function vMoto(){const m="moto.",al=[],hoje=new Date();
+const last={};S.man.forEach(x=>{if(!last[x.s]||x.t>last[x.s].t)last[x.s]=x});
+Object.values(last).forEach(x=>{if(x.ik>0){const f=x.km+x.ik-S.moto.kmAtual;if(f<=300)al.push(`${x.s}: ${f>=0?"faltam "+f+" km":"atrasado "+(-f)+" km"}`)}
+if(x.im>0){const dt=new Date(x.t);dt.setMonth(dt.getMonth()+x.im);const dias=Math.round((dt-hoje)/864e5);if(dias<=30)al.push(`${x.s}: ${dias>=0?"em "+dias+" dias":"vencido há "+(-dias)+" dias"}`)}});
+return`<div class="card"><b>Cadastro da moto</b>${inp(m+"modelo","Modelo",1)}<div class="row">${inp(m+"ano","Ano",1)}${inp(m+"kmAtual","Quilometragem atual")}</div>
+<div class="row">${inp(m+"kml","Consumo (km/l)")}${inp(m+"preco","Preço do combustível (R$/l)")}</div>${inp(m+"comb","Tipo de combustível",1)}</div>
+<div class="card"><b>Custos fixos</b><small>Valor e a cada quantos meses (vazio = todo mês).</small>${S.itens.map((x,i)=>x.t=="f"?`<h2>${x.n}</h2><div class="row">${inp(`itens.${i}.preco`,"Valor (R$)")}${inp(`itens.${i}.meses`,"A cada (meses)")}</div>`:"").join("")}</div>
+<div class="card"><b>Custos variáveis</b><small>Valor do serviço e de quantos em quantos km acontece. O combustível é calculado pelo consumo.</small>${S.itens.map((x,i)=>x.t=="v"?`<h2>${x.n}</h2><div class="row">${inp(`itens.${i}.preco`,"Valor (R$)")}${inp(`itens.${i}.km`,"A cada (km)")}</div>`:"").join("")}
+<div id="sMoto" style="margin-top:10px"></div></div>
+${PLANO<3?mini()+bloqCard("Alertas de manutenção da moto",3):""}<div class="card ${PLANO<3?"hide":""}"><b>Manutenção</b>${al.map(a=>`<div class="al b">${a}</div>`).join("")}
+<label>Serviço<input id="m_s" placeholder="Ex.: Troca de óleo"></label><div class="row"><label>Km do serviço<input id="m_km" inputmode="decimal"></label><label>Custo (R$)<input id="m_c" inputmode="decimal"></label></div>
+<label>Data<input type="date" id="m_t" value="${nowL().slice(0,10)}"></label><div class="row"><label>Próxima em (km)<input id="m_ik" inputmode="decimal"></label><label>Ou em (meses)<input id="m_im" inputmode="decimal"></label></div>
+<button class="btn s" onclick="addM()">Salvar manutenção</button>
+${S.man.slice().sort((a,b)=>b.t<a.t?-1:1).map(x=>`<div class="it"><b>${esc(x.s)}</b> · ${R(x.c)}<br><small>${x.t.slice(8,10)}/${x.t.slice(5,7)}/${x.t.slice(0,4)} · ${x.km} km</small><button class="sm" onclick="delM(${x.id})">Excluir</button></div>`).join("")}</div>`}
+function mini(){return`<div class="card"><b>Suas metas</b><small>Usadas no semáforo da calculadora.</small>${inp("cfg.kmMes","Km que pretende rodar por mês")}<div class="row">${inp("cfg.minKm","Mín. R$/km")}${inp("cfg.minHora","Mín. R$/hora")}</div>${inp("cfg.minCorrida","Mín. lucro por corrida (R$)")}</div>`+(PLANO==1?`<div class="card"><b>Backup e suporte</b><button class="btn" onclick="bkp()">Fazer backup (arquivo)</button><label>Restaurar backup<input type="file" accept=".json" onchange="rest(this.files[0])"></label><a class="btn s" style="text-decoration:none;text-align:center" href="mailto:rotalucrativa1@gmail.com?subject=Suporte%20Rota%20Lucrativa&body=Descreva%20sua%20d%C3%BAvida%20ou%20dificuldade%3A%0A">Enviar e-mail ao suporte</a><div class="t" style="margin-top:10px"><span>E-mail</span><b>rotalucrativa1@gmail.com</b></div></div>`:"")+(PLANO==1?gcard():"")}
+function addM(){const s=$("#m_s").value.trim();if(!s){alert("Informe o serviço.");return}
+S.man.push({id:Date.now(),s,km:num($("#m_km").value),c:num($("#m_c").value),t:$("#m_t").value,ik:num($("#m_ik").value),im:num($("#m_im").value)});save();render()}
+function delM(id){ask("Excluir?",()=>{S.man=S.man.filter(x=>x.id!=id);save();render()})}
+
+function vRel(){const p=window.RP||"mes",m=agg(p),s=sep(m.l),ap=APPS.map(a=>({a,...agg(p,a)})),best=ap.filter(x=>x.n).sort((x,y)=>y.lkm-x.lkm)[0];
+return`<div class="card"><select onchange="RP=this.value;render()">${[["dia","Fechamento de hoje"],["semana","Fechamento da semana"],["mes","Fechamento do mês"]].map(o=>`<option value="${o[0]}" ${p==o[0]?"selected":""}>${o[1]}</option>`).join("")}</select>
+${tr("Total recebido",R(m.v))}${tr("Total gasto (despesas pagas)",R(dsp(p,0)))}${tr("Custos da moto (provisão)",R(m.c))}${tr("Lucro operacional",R(m.l))}${PLANO>2?tr("Pró-labore",R(s.prol))+tr("Reservas (giro, emergência, acidentes)",R(s.giro+s.emerg+s.acid))+tr("Investimentos",R(s.inv))+tr("Lucro retido",R(s.luc)):bloqMini("Divisão do lucro e reservas",3)}</div>
+<div class="card"><b>Comparação dos aplicativos</b>${ap.map(x=>`<h2>${x.a}</h2>${tr("Faturamento",R(x.v))}${tr("Km / horas",x.km.toFixed(1).replace(".",",")+" km / "+x.h.toFixed(1).replace(".",",")+" h")}${tr("Custos",R(x.c))}${tr("Lucro líquido",R(x.l))}${tr("Ganho líquido por km",R(x.lkm))}${tr("Ganho líquido por hora",R(x.lh))}`).join("")}
+${best?`<div class="al" style="background:var(--okb);border-color:var(--ok)">Melhor rentabilidade por km: <b>${best.a}</b></div>`:"<small>Registre corridas para comparar.</small>"}</div>
+<div class="card"><b>Exportar e backup</b>${PLANO>2?'<button class="btn s" onclick="csvC()">Exportar corridas (CSV)</button><button class="btn s" onclick="csvD()">Exportar despesas (CSV)</button>':bloqMini("Exportar para Excel",3)}
+<button class="btn" onclick="bkp()">Fazer backup (arquivo)</button><label>Restaurar backup<input type="file" accept=".json" onchange="rest(this.files[0])"></label>
+<small>Seus dados ficam salvos neste celular. Faça backup de vez em quando, principalmente antes de limpar o navegador.</small></div>${gcard()}
+<div class="card"><b>Suporte</b><small>Dúvida ou dificuldade no app? Escreva para nós.</small><a class="btn" style="text-decoration:none;text-align:center" href="mailto:rotalucrativa1@gmail.com?subject=Suporte%20Rota%20Lucrativa&body=Descreva%20sua%20d%C3%BAvida%20ou%20dificuldade%3A%0A">Enviar e-mail ao suporte</a><div class="t" style="margin-top:10px"><span>E-mail</span><b>rotalucrativa1@gmail.com</b></div></div>`}
+async function dl(n,d){const ty=/\.csv$/i.test(n)?"text/csv":"application/json";
+try{const f=new File([d],n,{type:ty});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:n});return 1}}catch(e){if(e&&e.name=="AbortError")return 0}
+try{const u=URL.createObjectURL(new Blob([d],{type:ty})),a=document.createElement("a");a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return 1}catch(e){alert("Não foi possível salvar o arquivo.");return 0}}
+const cell=v=>`"${String(typeof v=="number"?String(v).replace(".",","):v).replace(/"/g,'""')}"`;
+function csvC(){dl("corridas.csv","\ufeff"+["Data;App;Valor;Km;Minutos;Custo;Resultado"].concat(S.corr.map(r=>[r.t.replace("T"," "),r.app,r.v,r.km,r.min,+r.c.toFixed(2),+(r.v-r.c).toFixed(2)].map(cell).join(";"))).join("\n"))}
+function csvD(){dl("despesas.csv","\ufeff"+["Data;Categoria;Valor;Tipo"].concat(S.desp.map(d=>[d.t,d.c,d.v,d.tp=="p"?"Profissional":"Pessoal"].map(cell).join(";"))).join("\n"))}
+function bkp(){dl("backup-rota-lucrativa-"+nowL().slice(0,10)+".json",JSON.stringify(S)).then(ok=>{if(ok){bkMarca();render()}})}
+function rest(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(!o.moto||!o.corr)throw 0;ask("Substituir os dados atuais pelo backup?",()=>{S=Object.assign(def(),o);save();bkMarca();render();alert("Backup restaurado.")})}catch(e){alert("Arquivo de backup inválido.")}};r.readAsText(f)}
+
+const ALLT=[["inicio","🏠","Início",vInicio],["calc","🧮","Calcular",vCalc],["ganhos","➕","Ganhos",vGanhos],["fin","💰","Financeiro",vFin],["moto","🏍️","Moto",vMoto],["rel","📊","Relatórios",vRel]];
+const VIEWS=Object.fromEntries(ALLT.map(t=>[t[0],t[3]]));
+function go(t){T=t;render();scrollTo(0,0)}
+function render(){PLANO=planoAtual();if(!T){T=PLANO==0?"planos":PLANO==1?"calc":"inicio";if(PLANO>0&&location.hash=="#rapido"){T="calc";try{localStorage.setItem(K+"Modo","rapido")}catch(e){}}}
+$("#hsub").textContent=PNOMES[PLANO]+" · toque para ver os planos";
+$("#nav").innerHTML=ALLT.map(t=>`<button class="${t[0]==T?"on":""}" onclick="go('${t[0]}')"><span>${PLANO<MIN[t[0]]?"🔒":t[1]}</span>${t[2]}</button>`).join("");
+let h=avisoPlano()+avisoBkp()+(MODO_TESTE?testeBar():"");
+if(T=="planos")h+=vPlanos();else if(PLANO<MIN[T])h+=vBloq(T);else h+=VIEWS[T]();
+$("#app").innerHTML=h;upd()}
+render();
+if(GCLIENT)gscript().catch(()=>{});
+licLoad();
+/* ===== PWA: instalar, funcionar sem internet e proteger os dados ===== */
+if("serviceWorker" in navigator&&location.protocol=="https:")navigator.serviceWorker.register("sw.js").catch(()=>{});
+if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
+</script>
+</body>
+</html>
