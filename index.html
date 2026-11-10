@@ -127,6 +127,7 @@ ${g.email?'<button class="btn s" onclick="gSair()">Sair da conta Google</button>
 
 /* ===== Acesso por plano (um único app) ===== */
 const MODO_TESTE=false; /* só para o dono testar: true deixa QUALQUER pessoa escolher o plano. Para vender, deixe false. */
+const DONO="LUCAS-RL-8472"; /* código do dono: libera o Tanque Cheio sem vencimento. Escreva SEMPRE em MAIÚSCULAS. */
 let ACESSO={plano:0,venceEm:null,cliente:""};
 const LINKS={1:"https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=fac6a573dfac4f0987eea49afc88daff",2:"https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=b3823ffc25f54075a505f73444a6499e",3:"https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=b52b0db9026d4181a9bdc9d227815a5e"};
 const MIN={inicio:2,calc:1,ganhos:2,fin:3,moto:1,rel:2};
@@ -135,7 +136,7 @@ const FEATS={1:["Calculadora com semáforo","Lucro por km e por hora","Custo rea
 3:["Tudo do plano Meio Tanque","Sustento da casa e metas","Divisão do lucro: giro, reservas e salário","Alertas de manutenção da moto","Exportar para Excel"]};
 function testeGet(){try{return JSON.parse(localStorage.getItem(K+"Teste"))||{}}catch(e){return{}}}
 function testeSet(k,v){const t=testeGet();t[k]=v;try{localStorage.setItem(K+"Teste",JSON.stringify(t))}catch(e){}render()}
-function acessoAtual(){if(MODO_TESTE){const t=testeGet(),p=t.plano==null?3:+t.plano;let v=null;if(t.venc=="3d")v=Date.now()+3*864e5;if(t.venc=="x")v=Date.now()-864e5;return{plano:p,venceEm:v}}return ACESSO}
+function acessoAtual(){if(lsGet(K+"Dono")=="1")return{plano:3,venceEm:null,cliente:"Dono"};if(MODO_TESTE){const t=testeGet(),p=t.plano==null?3:+t.plano;let v=null;if(t.venc=="3d")v=Date.now()+3*864e5;if(t.venc=="x")v=Date.now()-864e5;return{plano:p,venceEm:v}}return ACESSO}
 function planoAtual(){const a=acessoAtual();if(!a.plano)return 0;if(a.venceEm&&agora()>new Date(a.venceEm).getTime())return 0;return a.plano}
 function avisoPlano(){const a=acessoAtual();if(!a.plano||!a.venceEm)return"";const d=Math.ceil((new Date(a.venceEm).getTime()-agora())/864e5);
 if(d<0)return`<div class="al b">Seu plano venceu. Renove para voltar a usar as áreas do plano. Seus dados continuam salvos.</div>`;
@@ -164,7 +165,9 @@ const relogioRuim=r=>r.emitido-864e5>agora();
 async function licLoad(){const c=lsGet(LIC_K);if(!c)return;const r=await licVerify(c);
 if(r.ok&&!relogioRuim(r)){ACESSO={plano:r.plano,venceEm:r.venceEm,cliente:r.cliente};LICERR=""}
 else{ACESSO={plano:0,venceEm:null,cliente:""};LICERR=r.ok?"A data do seu celular parece errada. Ajuste a data e abra o app de novo.":r.msg}render()}
-async function licAtivar(){const el=$("#lic_in"),code=el?el.value:"",r=await licVerify(code);
+async function licAtivar(){const el=$("#lic_in"),code=el?el.value:"";
+if(code.trim().toUpperCase()==DONO){lsSet(K+"Dono","1");alert("Acesso do dono ativado! ✅");T="";render();return}
+const r=await licVerify(code);
 if(!r.ok){alert(r.msg);return}
 if(relogioRuim(r)){alert("A data do seu celular parece errada. Ajuste a data e tente de novo.");return}
 if(r.venceEm<agora()){alert("Este código já venceu. Peça um código novo pelo e-mail de suporte.");return}
