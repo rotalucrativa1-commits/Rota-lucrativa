@@ -26,6 +26,7 @@ small,.m{color:var(--mut);font-size:13px}
 .btn.s{background:var(--card);color:var(--tx);border:1px solid var(--line)}
 .btn.r{background:var(--bad);color:#fff}
 .sm{border:1px solid var(--line);background:var(--card);color:var(--tx);border-radius:8px;padding:8px 12px;font-size:14px;margin-left:6px}
+.hq{width:24px;height:24px;border-radius:50%;border:0;background:var(--pri);color:#1a1400;font-weight:700;font-size:14px;margin-left:6px;vertical-align:middle;padding:0;cursor:pointer;touch-action:manipulation}
 .res{border-radius:14px;padding:14px;margin:10px 0}.res.ok{background:var(--okb)}.res.mid{background:var(--midb)}.res.bad{background:var(--badb)}
 .res h3{margin:0 0 6px;font-size:20px}.res.ok h3{color:var(--ok)}.res.mid h3{color:var(--mid)}.res.bad h3{color:var(--bad)}
 .t{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid var(--line)}.t:last-child{border:0}
@@ -242,13 +243,55 @@ return`<div class="rp"><div id="rr" class="rs ${a?a.cl:""}">${rResHtml(a)}</div>
 /* ===== avisos dentro da página ===== */
 function dlgBox(msg,btns){let o=document.getElementById("dlgx");if(o)o.remove();o=document.createElement("div");o.id="dlgx";
 o.style.cssText="position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:20px";
-const c=document.createElement("div");c.style.cssText="background:var(--card);color:var(--tx);border-radius:14px;padding:18px;max-width:420px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,.4)";
+const c=document.createElement("div");c.style.cssText="background:var(--card);color:var(--tx);border-radius:14px;padding:18px;max-width:420px;width:100%;max-height:85vh;overflow:auto;box-shadow:0 8px 30px rgba(0,0,0,.4)";
 const p=document.createElement("div");p.style.cssText="white-space:pre-wrap;font-size:16px;line-height:1.4;margin-bottom:14px";p.textContent=msg;c.appendChild(p);
 const r=document.createElement("div");r.style.cssText="display:flex;gap:8px";
 btns.forEach(b=>{const x=document.createElement("button");x.textContent=b[0];x.className="btn"+(b[2]?" s":"");x.style.cssText="margin:0;flex:1";x.onclick=()=>{o.remove();if(b[1])b[1]()};r.appendChild(x)});
 c.appendChild(r);o.appendChild(c);document.body.appendChild(o)}
 window.alert=function(m){dlgBox(String(m),[["OK"]])};
 function ask(m,fn){dlgBox(m,[["Cancelar",null,1],["Confirmar",fn]])}
+
+/* ===== Ajuda da aba Moto (botão "?") ===== */
+/* Intervalos ESPECÍFICOS por modelo, tirados do MANUAL do fabricante. Não invente números.
+   Ex.: "cg 160":{"Óleo do motor":0000,"Relação":0000}  (chave em minúsculas, parte do nome do modelo) */
+const MODELOS={};
+const HELP={
+"Óleo do motor":{km:1500,f:"1.000 a 3.000 km",d:"No uso de entregas (trânsito, calor, muitas partidas) o óleo desgasta mais rápido. Confira o nível toda semana."},
+"Filtros":{km:3000,f:"filtro de óleo a cada 2 trocas de óleo; filtro de ar: limpar a cada 3.000 km e trocar entre 6.000 e 12.000 km",d:"Em ruas com muita poeira, limpe o filtro de ar com mais frequência."},
+"Pneus":{km:12000,f:"8.000 a 15.000 km (o traseiro gasta mais)",d:"Troque quando o sulco chegar ao indicador TWI (1,6 mm) ou se houver cortes ou bolhas. Calibre toda semana, com o pneu frio."},
+"Relação":{km:15000,f:"12.000 a 20.000 km",d:"Lubrifique a corrente a cada 500 km (e depois de chuva) e ajuste a folga. Troque coroa, pinhão e corrente juntos."},
+"Freios":{km:8000,f:"confira pastilhas/lonas a cada 3.000 km; a troca costuma ficar entre 5.000 e 10.000 km",d:"Troque antes se ouvir chiado, sentir o freio fraco ou a manete/pedal muito longo. Fluido de freio: a cada 1 a 2 anos."},
+"Manutenção preventiva":{km:6000,f:"revisão geral a cada 3.000 a 6.000 km (vela, cabos, regulagens, parte elétrica)",d:"A vela de ignição costuma ser trocada entre 8.000 e 12.000 km."},
+"Manutenção corretiva":{d:"Não tem intervalo fixo: são consertos inesperados. Para o cálculo, coloque quanto você gasta em média e em quantos km (ex.: R$ 600 a cada 10.000 km)."},
+"Lavagem e conservação":{km:1000,f:"lavagem semanal ou a cada 1.000 km",d:"Depois de chuva, lave e lubrifique a corrente. Isso evita ferrugem e desgaste."},
+"Depreciação da moto":{d:"É quanto a moto perde de valor com o uso. Ex.: comprou por R$ 15.000 e pretende vender por R$ 9.000 depois de 60.000 km: coloque R$ 6.000 a cada 60.000 km. Use a Tabela FIPE como base."},
+"Seguro":{m:12,d:"Normalmente é anual. Coloque o valor total e 12 meses (ou a parcela e 1 mês)."},
+"Proteção veicular":{m:1,d:"Normalmente é mensal. Coloque a mensalidade e 1 mês."},
+"IPVA":{m:12,d:"Anual. Alguns estados isentam motos antigas ou de baixa cilindrada. Confira as regras do seu estado."},
+"Licenciamento":{m:12,d:"Anual e obrigatório. Coloque o valor e 12 meses."},
+"Parcela da moto":{m:1,d:"Coloque o valor da parcela e 1 mês."},
+"Outros custos fixos":{m:1,d:"Ex.: celular de trabalho, suporte, baú, bag, DAS do MEI. Coloque o valor e de quantos em quantos meses é pago."},
+kml:{d:"Como medir: encha o tanque, zere o hodômetro parcial e rode normalmente. Encha de novo e divida os km rodados pelos litros colocados. Repita 2 ou 3 vezes e use a média."},
+man:{d:"Registre cada serviço com o km do dia. Em \"Próxima em (km)\" coloque o intervalo do serviço. O app avisa quando faltar 300 km ou menos.\n\nToque no \"?\" de cada item em Custos variáveis para ver o intervalo recomendado e quando fazer o próximo."}};
+const MKEY={"Óleo do motor":/[óo]leo/i,"Filtros":/filtro/i,"Pneus":/pneu/i,"Relação":/rela[cç]|corrente|coroa/i,"Freios":/freio|pastilha|lona/i,"Manutenção preventiva":/revis|preventiva/i,"Lavagem e conservação":/lavag/i};
+const fk=n=>Math.round(n).toLocaleString("pt-BR");
+const hq=k=>`<button type="button" class="hq" aria-label="Ajuda" onclick="event.preventDefault();event.stopPropagation();ajuda(${typeof k=="number"?k:`'${k}'`})">?</button>`;
+function ajuda(k){const it=typeof k=="number"?S.itens[k]:null,n=it?it.n:k,h=HELP[n];if(!h)return;
+const mo=S.moto,mod=String(mo.modelo||"").toLowerCase().trim(),ch=mod&&Object.keys(MODELOS).find(x=>mod.includes(x)),esp=ch&&MODELOS[ch][n];
+const nomeM=mo.modelo?mo.modelo+(mo.ano?" "+mo.ano:""):"",ano=parseInt(mo.ano),idade=ano>1900?new Date().getFullYear()-ano:0,t=[h.d];
+if(h.km){const iv=esp||h.km;
+t.push(esp?`📘 Para ${ch.toUpperCase()}: a cada ${fk(iv)} km (conforme o manual).`:`📋 Referência geral para uso intenso: ${h.f}.`+(nomeM?`\nNão temos dados específicos da ${nomeM}. Confira o manual do proprietário.`:"\nCadastre modelo e ano para dicas mais precisas. Na dúvida, siga o manual da moto."));
+if(idade>=8)t.push(`🔧 Sua moto tem ${idade} anos: vale encurtar os intervalos e revisar com mais frequência.`);
+if(mo.kmAtual>=50000)t.push(`🔧 Com ${fk(mo.kmAtual)} km, fique atento a consumo de óleo, folgas e vazamentos.`);
+const re=MKEY[n],l=re&&S.man.filter(x=>re.test(x.s)&&x.km>0).sort((a,b)=>a.t<b.t?1:-1)[0];
+if(l&&mo.kmAtual){const p=l.km+(l.ik||(it&&it.km)||iv),f=p-mo.kmAtual;
+t.push(f>0?`✅ Último registro: ${fk(l.km)} km. Próximo por volta de ${fk(p)} km (faltam ${fk(f)} km).`:`🚨 Último registro: ${fk(l.km)} km. Atrasado em ${fk(-f)} km! Faça o serviço logo.`)}
+else t.push(mo.kmAtual?"Registre este serviço em Manutenção para o app calcular quando fazer o próximo.":"Informe a quilometragem atual no cadastro para o app calcular o próximo serviço.");
+if(it&&!it.km)t.push(`💡 Sugestão para o campo "A cada (km)": ${fk(iv)}.`)}
+if(h.m&&it&&!it.meses)t.push(`💡 Sugestão para o campo "A cada (meses)": ${h.m}.`);
+const tit=n=="kml"?"Consumo (km/l)":n=="man"?"Manutenção":n;
+dlgBox("ℹ️ "+tit+"\n\n"+t.join("\n\n"),[["Entendi"]])}
+
 /* ===== cálculos ===== */
 function ck(){const m=S.moto,f=m.kml>0?m.preco/m.kml:0;let v=0,fx=0;
 S.itens.forEach(i=>{if(i.t=="v"&&i.km>0)v+=i.preco/i.km;if(i.t=="f")fx+=i.preco/(i.meses||1)});
@@ -364,12 +407,12 @@ function vMoto(){const m="moto.",al=[],hoje=new Date();
 const last={};S.man.forEach(x=>{if(!last[x.s]||x.t>last[x.s].t)last[x.s]=x});
 Object.values(last).forEach(x=>{if(x.ik>0){const f=x.km+x.ik-S.moto.kmAtual;if(f<=300)al.push(`${x.s}: ${f>=0?"faltam "+f+" km":"atrasado "+(-f)+" km"}`)}
 if(x.im>0){const dt=new Date(x.t);dt.setMonth(dt.getMonth()+x.im);const dias=Math.round((dt-hoje)/864e5);if(dias<=30)al.push(`${x.s}: ${dias>=0?"em "+dias+" dias":"vencido há "+(-dias)+" dias"}`)}});
-return`<div class="card"><b>Cadastro da moto</b>${inp(m+"modelo","Modelo",1)}<div class="row">${inp(m+"ano","Ano",1)}${inp(m+"kmAtual","Quilometragem atual")}</div>
-<div class="row">${inp(m+"kml","Consumo (km/l)")}${inp(m+"preco","Preço do combustível (R$/l)")}</div>${inp(m+"comb","Tipo de combustível",1)}</div>
-<div class="card"><b>Custos fixos</b><small>Valor e a cada quantos meses (vazio = todo mês).</small>${S.itens.map((x,i)=>x.t=="f"?`<h2>${x.n}</h2><div class="row">${inp(`itens.${i}.preco`,"Valor (R$)")}${inp(`itens.${i}.meses`,"A cada (meses)")}</div>`:"").join("")}</div>
-<div class="card"><b>Custos variáveis</b><small>Valor do serviço e de quantos em quantos km acontece. O combustível é calculado pelo consumo.</small>${S.itens.map((x,i)=>x.t=="v"?`<h2>${x.n}</h2><div class="row">${inp(`itens.${i}.preco`,"Valor (R$)")}${inp(`itens.${i}.km`,"A cada (km)")}</div>`:"").join("")}
+return`<div class="card"><b>Cadastro da moto</b><br><small>Modelo, ano e km deixam as dicas do botão ? mais precisas.</small>${inp(m+"modelo","Modelo",1)}<div class="row">${inp(m+"ano","Ano",1)}${inp(m+"kmAtual","Quilometragem atual")}</div>
+<div class="row">${inp(m+"kml","Consumo (km/l)")}${inp(m+"preco","Preço do combustível (R$/l)")}</div><small>Como medir o consumo?${hq("kml")}</small>${inp(m+"comb","Tipo de combustível",1)}</div>
+<div class="card"><b>Custos fixos</b><small>Valor e a cada quantos meses (vazio = todo mês). Toque no ? para ver dicas.</small>${S.itens.map((x,i)=>x.t=="f"?`<h2>${x.n}${hq(i)}</h2><div class="row">${inp(`itens.${i}.preco`,"Valor (R$)")}${inp(`itens.${i}.meses`,"A cada (meses)")}</div>`:"").join("")}</div>
+<div class="card"><b>Custos variáveis</b><small>Valor do serviço e de quantos em quantos km acontece. O combustível é calculado pelo consumo. Toque no ? para ver o intervalo recomendado.</small>${S.itens.map((x,i)=>x.t=="v"?`<h2>${x.n}${hq(i)}</h2><div class="row">${inp(`itens.${i}.preco`,"Valor (R$)")}${inp(`itens.${i}.km`,"A cada (km)")}</div>`:"").join("")}
 <div id="sMoto" style="margin-top:10px"></div></div>
-${PLANO<3?mini()+bloqCard("Alertas de manutenção da moto",3):""}<div class="card ${PLANO<3?"hide":""}"><b>Manutenção</b>${al.map(a=>`<div class="al b">${a}</div>`).join("")}
+${PLANO<3?mini()+bloqCard("Alertas de manutenção da moto",3):""}<div class="card ${PLANO<3?"hide":""}"><b>Manutenção</b>${hq("man")}${al.map(a=>`<div class="al b">${a}</div>`).join("")}
 <label>Serviço<input id="m_s" placeholder="Ex.: Troca de óleo"></label><div class="row"><label>Km do serviço<input id="m_km" inputmode="decimal"></label><label>Custo (R$)<input id="m_c" inputmode="decimal"></label></div>
 <label>Data<input type="date" id="m_t" value="${nowL().slice(0,10)}"></label><div class="row"><label>Próxima em (km)<input id="m_ik" inputmode="decimal"></label><label>Ou em (meses)<input id="m_im" inputmode="decimal"></label></div>
 <button class="btn s" onclick="addM()">Salvar manutenção</button>
